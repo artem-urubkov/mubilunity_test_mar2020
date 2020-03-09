@@ -1,0 +1,2 @@
+rootProject.name='MobilunityTest_mar2020'
+include ':app'
