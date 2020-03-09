@@ -81,3 +81,11 @@ lint/generated/
 lint/outputs/
 lint/tmp/
 # lint/reports/
+gradlew
+gradlew.bat
+.idea/misc.xml
+.idea/runConfigurations.xml
+.idea/codeStyles/codeStyleConfig.xml
+.idea/codeStyles/Project.xml
+.idea/inspectionProfiles/profiles_settings.xml
+gradle/wrapper/gradle-wrapper.jar
