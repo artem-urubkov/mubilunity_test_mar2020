@@ -45,7 +45,6 @@ class DataModule(
             .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create(gson))
-//                    .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
             .build()
 
@@ -58,41 +57,4 @@ class DataModule(
         retrofit.responseBodyConverter(Error::class.java, arrayOfNulls(0))
 
 
-//    @Provides
-//    @Singleton
-//    fun provideFileApi(
-//            errorConverter: Converter<ResponseBody, Error>,
-//            restApiService: RetrofitRestService
-//    ): FileApi =
-//            RetrofitFileApi(
-//                    errorConverter,
-//                    restApiService
-//            )
-//
-//    @Provides
-//    @Singleton
-//    fun provideOfflineApi(retrofitRestApi: RetrofitRestApi): OfflineApi =
-//            retrofitRestApi
-//
-//    @Provides
-//    @Singleton
-//    fun provideSyncNetworkMapper(): SyncNetworkMapper =
-//            SyncNetworkMapperImpl()
-//
-//    @Provides
-//    @Singleton
-//    fun provideSyncApi(
-//            retrofit: Retrofit,
-//            errorConverter: Converter<ResponseBody, Error>,
-//            restApiService: RetrofitRestService,
-//            syncNetworkMapper: SyncNetworkMapper,
-//            userStorage: UserStorage
-//    ): SyncApi =
-//            RetrofitSyncApi(
-//                    retrofit,
-//                    errorConverter,
-//                    restApiService,
-//                    syncNetworkMapper,
-//                    userStorage
-//            )
 }

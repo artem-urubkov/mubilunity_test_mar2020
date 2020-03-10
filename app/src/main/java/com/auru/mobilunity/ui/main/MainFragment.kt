@@ -10,11 +10,16 @@ import com.auru.mobilunity.R
 import androidx.lifecycle.Observer
 
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.auru.mobilunity.dto.RepoElement
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel>()
+
+    private lateinit var linearLayoutManager: LinearLayoutManager
+    private lateinit var adapter: RecyclerAdapter
 
     companion object {
         fun newInstance() = MainFragment()
@@ -28,21 +33,25 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         viewModel.getRepoElementsLD().observe(viewLifecycleOwner, Observer<List<RepoElement>> { elements ->
-            //            Timber.d("$LOG_TAG, onRegistrationNeededLD()")
 //            hideLoading()
             val list = elements
-            val i = 0
+            adapter.setItems(list ?: emptyList())
             //todo
         })
 
         viewModel.getErrorLD().observe(viewLifecycleOwner, Observer<String> { errorMessage ->
 //            processException(exception)
-            val msg = message
-            val i = 0
+            val msg = errorMessage
             //todo
         })
+
+        linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        recyclerView.layoutManager = linearLayoutManager
+        adapter = RecyclerAdapter(emptyList<RepoElement>())
+        recyclerView.adapter = adapter
+
+        viewModel.refreshList()
     }
 
 }

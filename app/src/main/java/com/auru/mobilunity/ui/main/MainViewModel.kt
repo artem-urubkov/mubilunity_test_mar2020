@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.MutableLiveData
 import com.auru.mobilunity.AndroidApp
 import com.auru.mobilunity.BaseViewModel
+import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.network.NetworkDataConverter
 import com.auru.mobilunity.network.RetrofitRestService
 import kotlinx.coroutines.Dispatchers
@@ -20,9 +21,10 @@ class MainViewModel(application: Application)  : BaseViewModel(application) {
     @Inject
     lateinit var restApi: RetrofitRestService
 
-    fun initialize(application: AndroidApp) {
-        application.component.inject(this)
+    init{
+        getApplication<AndroidApp>().component.inject(this)
     }
+
 
     /* ******************************** LiveData block start ******************************** */
 
@@ -51,4 +53,5 @@ class MainViewModel(application: Application)  : BaseViewModel(application) {
             }
         }
     }
+
 }
