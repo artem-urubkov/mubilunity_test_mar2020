@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auru.mobilunity.dto.RepoElement
+import com.auru.mobilunity.widget.RecyclerViewEnum
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -21,7 +22,7 @@ class MainFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel>()
 
     private lateinit var linearLayoutManager: LinearLayoutManager
-    private lateinit var adapter: RecyclerAdapter
+    private lateinit var recAdapter: RecyclerAdapter
 
     companion object {
         fun newInstance() = MainFragment()
@@ -36,22 +37,28 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getRepoElementsLD().observe(viewLifecycleOwner, Observer<List<RepoElement>> { elements ->
-//            hideLoading() - not so needed because the loading is versy fast - thus, in most cases will lead to screen-blinking ->
-//            omitted for to process it in good manner will take not little time
             val list = elements
-            adapter.setItems(list ?: emptyList())
+            recAdapter.setItems(list ?: emptyList())
         })
 
         viewModel.getErrorLD().observe(viewLifecycleOwner, Observer<String> { errorMessage ->
+            recyclerView.stateView = RecyclerViewEnum.EMPTY_STATE
             showErrorSnackBar(errorMessage)
         })
 
         linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = linearLayoutManager
-        adapter = RecyclerAdapter(emptyList<RepoElement>())
-        recyclerView.adapter = adapter
+        recAdapter = RecyclerAdapter(emptyList<RepoElement>())
 
+        recyclerView?.apply {
+            layoutManager = linearLayoutManager
+            emptyStateView = emptyView
+            loadingStateView = loadingView
+            adapter = recAdapter
+        }
+
+        recyclerView.stateView = RecyclerViewEnum.LOADING
         viewModel.refreshRepoData()
+
     }
 
     private fun showErrorSnackBar(message: String) {
