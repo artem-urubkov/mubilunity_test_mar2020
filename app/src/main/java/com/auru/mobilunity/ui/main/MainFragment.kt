@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import com.auru.mobilunity.R
 
 import androidx.lifecycle.Observer
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.auru.mobilunity.dto.RepoElement
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 
 class MainFragment : Fragment() {
@@ -34,16 +36,14 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getRepoElementsLD().observe(viewLifecycleOwner, Observer<List<RepoElement>> { elements ->
-//            hideLoading()
+//            hideLoading() - not so needed because the loading is versy fast - thus, in most cases will lead to screen-blinking ->
+//            omitted for to process it in good manner will take not little time
             val list = elements
             adapter.setItems(list ?: emptyList())
-            //todo
         })
 
         viewModel.getErrorLD().observe(viewLifecycleOwner, Observer<String> { errorMessage ->
-//            processException(exception)
-            val msg = errorMessage
-            //todo
+            showErrorSnackBar(errorMessage)
         })
 
         linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
@@ -52,6 +52,13 @@ class MainFragment : Fragment() {
         recyclerView.adapter = adapter
 
         viewModel.refreshRepoData()
+    }
+
+    private fun showErrorSnackBar(message: String) {
+        val userDisabledSnackbar = Snackbar.make(coordinator_layout, message, Snackbar.LENGTH_INDEFINITE)
+        userDisabledSnackbar.setAction(R.string.close, {})
+        userDisabledSnackbar.setActionTextColor(ResourcesCompat.getColor(resources, R.color.yellow, null))
+        userDisabledSnackbar.show()
     }
 
 }
