@@ -51,7 +51,7 @@ class MainFragment : Fragment() {
         adapter = RecyclerAdapter(emptyList<RepoElement>())
         recyclerView.adapter = adapter
 
-        viewModel.refreshList()
+        viewModel.refreshRepoData()
     }
 
 }

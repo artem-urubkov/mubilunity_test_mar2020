@@ -37,7 +37,7 @@ class MainViewModel(application: Application)  : BaseViewModel(application) {
     /* ******************************** LiveData block end ******************************** */
 
 
-    fun refreshList() {
+    fun refreshRepoData() {
         getFreshScope().launch {
             try {
                 val reposList = mutableListOf<RepoElement>()
