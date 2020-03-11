@@ -21,7 +21,7 @@ open class DataModule(
 ) {
 
     @Provides
-    @Singleton
+    @Singleton //TODO consider isn't it better to get rid of singleton
     fun provideGson(): Gson {
         val gson = GsonBuilder()
             .serializeNulls()
@@ -30,6 +30,7 @@ open class DataModule(
     }
 
     @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val builder = OkHttpClient.Builder()
 
@@ -50,14 +51,12 @@ open class DataModule(
             .build()
 
     @Provides
+    @Singleton
     open fun provideRetrofitRestService(retrofit: Retrofit): RetrofitRestService =
         retrofit.create(RetrofitRestService::class.java)
 
     @Provides
-    fun provideErrorConverter(retrofit: Retrofit): Converter<ResponseBody, Error> =
-        retrofit.responseBodyConverter(Error::class.java, arrayOfNulls(0))
-
-    @Provides
+    @Singleton
     open fun provideCoroutineContextProvider(): CoroutineContextProvider =
         CoroutineContextProvider()
 
