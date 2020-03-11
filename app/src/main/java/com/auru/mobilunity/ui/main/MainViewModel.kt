@@ -1,8 +1,6 @@
 package com.auru.mobilunity.ui.main
 
 import android.app.Application
-import android.os.Handler
-import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.auru.mobilunity.AndroidApp
 import com.auru.mobilunity.BaseViewModel
@@ -10,7 +8,10 @@ import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.network.NetworkDataConverter
 import com.auru.mobilunity.network.RetrofitRestService
 import com.auru.mobilunity.utils.CoroutineContextProvider
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class MainViewModel(application: Application) : BaseViewModel(application) {

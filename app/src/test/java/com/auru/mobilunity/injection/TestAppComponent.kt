@@ -1,6 +1,5 @@
 package com.auru.mobilunity.injection
 
-import com.auru.mobilunity.ui.main.MainViewModel
 import dagger.Component
 import javax.inject.Singleton
 
@@ -11,5 +10,4 @@ import javax.inject.Singleton
     ]
 )
 interface TestAppComponent {
-//    fun inject(mainViewModel: MainViewModel)
 }

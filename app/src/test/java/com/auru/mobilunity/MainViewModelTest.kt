@@ -16,38 +16,37 @@
 
 package com.auru.mobilunity
 
-import android.app.Application
 import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-//import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.auru.mobilunity.dto.RepoElement
-import com.auru.mobilunity.injection.*
+import com.auru.mobilunity.injection.DaggerAppComponent
+import com.auru.mobilunity.injection.DataModuleTest
 import com.auru.mobilunity.network.RetrofitRestService
 import com.auru.mobilunity.ui.main.MainViewModel
 import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
-import org.hamcrest.CoreMatchers.not
-import org.hamcrest.CoreMatchers.nullValue
-import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.*
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import org.junit.Assert.assertEquals
+import org.mockito.BDDMockito.given
 import org.mockito.Mockito
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import java.io.IOException
 
 
 @RunWith(AndroidJUnit4::class)
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class MainViewModelTest {
 
+    //TODO inject mock of RetrofitRestService, better use @Mock for that
+
     // Subject under test
     private lateinit var mainViewModel: MainViewModel
+
+    private lateinit var mockApi: RetrofitRestService
 
     // Executes each task synchronously using Architecture Components.
     @get:Rule
@@ -61,14 +60,16 @@ class MainViewModelTest {
             .dataModule(DataModuleTest(baseUrl))
             .build()
         mainViewModel = MainViewModel(testApplication)
+
+        mockApi = Mockito.mock(RetrofitRestService::class.java)
+        mainViewModel.restApi = mockApi
     }
 
 
     @Test
     fun refreshRepoData_positive_test() {
         runBlocking {
-            val mockApi = Mockito.mock(RetrofitRestService::class.java)
-            mainViewModel.restApi = mockApi
+
             Mockito.`when`(mockApi.getRepoElements()).thenReturn(
                 Single.just(
                     arrayOf(
@@ -90,26 +91,19 @@ class MainViewModelTest {
     }
 
 
-//    @Test
-//    fun addNewTask_setsNewTaskEvent() {
-//        // When adding a new task
-//        mainViewModel.addNewTask()
-//
-//        // Then the new task event is triggered
-//        val value = mainViewModel.newTaskEvent.getOrAwaitValue()
-//
-//        assertThat(value.getContentIfNotHandled(), not(nullValue()))
-//
-//
-//    }
-//
-//    @Test
-//    fun setFilterAllTasks_tasksAddViewVisible() {
-//        // When the filter type is ALL_TASKS
-//        mainViewModel.setFiltering(TasksFilterType.ALL_TASKS)
-//
-//        // Then the "Add task" action is visible
-//        assertThat(mainViewModel.tasksAddViewVisible.getOrAwaitValue(), `is`(true))
-//    }
+    @Test
+    fun refreshRepoData_negative_test() {
+        runBlocking {
+            given(mockApi.getRepoElements()).willAnswer {
+                throw IOException("Ooops")
+            }
+
+            mainViewModel.refreshRepoData()
+
+            val value = mainViewModel.getErrorLD().getOrAwaitValue()
+
+            assertNotNull(value)
+        }
+    }
 
 }
