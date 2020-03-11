@@ -1,6 +1,6 @@
 # mubilunity_test_mar2020
 
-App corresponding to the minimal requirements of test requirements.
+App corresponding to the minimal test requirements.
 
 There are some TODOs left:
 1) Add SwipeRefresh layout to enable convenient list update
