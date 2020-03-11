@@ -1,8 +1,8 @@
-package com.auru.mobilunity
+package com.auru.mobilunity.ui.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.auru.mobilunity.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.auru.mobilunity.R
 
 class MainActivity : AppCompatActivity() {
 

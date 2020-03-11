@@ -1,6 +1,7 @@
 package com.auru.mobilunity.injection
 
 import com.auru.mobilunity.network.RetrofitRestService
+import com.auru.mobilunity.utils.CoroutineContextProvider
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import dagger.Module
@@ -15,7 +16,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class DataModule(
+open class DataModule(
     private val baseUrl: String
 ) {
 
@@ -40,7 +41,7 @@ class DataModule(
 
     @Provides
     @Singleton
-    fun provideRetrofitClient(client: OkHttpClient, gson: Gson): Retrofit =
+    open fun provideRetrofitClient(client: OkHttpClient, gson: Gson): Retrofit =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(client)
@@ -49,12 +50,16 @@ class DataModule(
             .build()
 
     @Provides
-    fun provideRetrofitRestService(retrofit: Retrofit): RetrofitRestService =
+    open fun provideRetrofitRestService(retrofit: Retrofit): RetrofitRestService =
         retrofit.create(RetrofitRestService::class.java)
 
     @Provides
     fun provideErrorConverter(retrofit: Retrofit): Converter<ResponseBody, Error> =
         retrofit.responseBodyConverter(Error::class.java, arrayOfNulls(0))
+
+    @Provides
+    open fun provideCoroutineContextProvider(): CoroutineContextProvider =
+        CoroutineContextProvider()
 
 
 }

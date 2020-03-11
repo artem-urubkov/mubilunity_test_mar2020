@@ -1,18 +1,19 @@
 package com.auru.mobilunity.ui.main
 
 import android.app.Application
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.MutableLiveData
 import com.auru.mobilunity.AndroidApp
 import com.auru.mobilunity.BaseViewModel
 import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.network.NetworkDataConverter
 import com.auru.mobilunity.network.RetrofitRestService
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.auru.mobilunity.utils.CoroutineContextProvider
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
-class MainViewModel(application: Application)  : BaseViewModel(application) {
+class MainViewModel(application: Application) : BaseViewModel(application) {
 
     companion object {
         val LOG_TAG = MainViewModel::class.java.simpleName
@@ -20,8 +21,10 @@ class MainViewModel(application: Application)  : BaseViewModel(application) {
 
     @Inject
     lateinit var restApi: RetrofitRestService
+    @Inject
+    lateinit var coroutinePool: CoroutineContextProvider
 
-    init{
+    init {
         getApplication<AndroidApp>().component.inject(this)
     }
 
@@ -37,14 +40,22 @@ class MainViewModel(application: Application)  : BaseViewModel(application) {
     /* ******************************** LiveData block end ******************************** */
 
 
+    override fun getFreshScope(): CoroutineScope {
+        coroutineScope.coroutineContext.cancelChildren()
+        coroutineScope = CoroutineScope(coroutinePool.Main + job)
+        return coroutineScope
+    }
+
+
     fun refreshRepoData() {
         getFreshScope().launch {
             try {
                 val reposList = mutableListOf<RepoElement>()
-                withContext(Dispatchers.Default) {
+                withContext(coroutinePool.COMMON) {
                     val resultList = restApi.getRepoElements().blockingGet()
                     reposList.addAll(resultList)
                 }
+//            println("$LOG_TAG, reposList.size=${reposList.size}; setting to repoElementsLD")
                 repoElementsLD.postValue(reposList)
             } catch (e: Exception) {
                 val errorMsgId = NetworkDataConverter.convertRestErrorToMessageId(e)
