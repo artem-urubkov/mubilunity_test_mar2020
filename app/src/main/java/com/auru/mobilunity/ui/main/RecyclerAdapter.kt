@@ -70,11 +70,6 @@ class RecyclerAdapter(private var repoItems: List<RepoElement>) :
         }
 
         override fun onClick(v: View) {
-//      val context = itemView.context
-//      val showPhotoIntent = Intent(context, PhotoActivity::class.java)
-//      showPhotoIntent.putExtra(PHOTO_KEY, photo)
-//      context.startActivity(showPhotoIntent)
-//      Log.d("RecyclerView", "CLICK!")
         }
 
         companion object {
