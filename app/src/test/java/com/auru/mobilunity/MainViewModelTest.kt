@@ -41,8 +41,6 @@ import java.io.IOException
 @Config(sdk = [Build.VERSION_CODES.O_MR1])
 class MainViewModelTest {
 
-    //TODO inject mock of RetrofitRestService, better use @Mock for that
-
     // Subject under test
     private lateinit var mainViewModel: MainViewModel
 
@@ -61,8 +59,7 @@ class MainViewModelTest {
             .build()
         mainViewModel = MainViewModel(testApplication)
 
-        mockApi = Mockito.mock(RetrofitRestService::class.java)
-        mainViewModel.restApi = mockApi
+        mockApi = mainViewModel.restApi
     }
 
 
