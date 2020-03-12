@@ -33,14 +33,18 @@ android {
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
 
+    lintOptions {
+        abortOnError false
+    }
+
     // Always show the result of every unit test when running via command line, even if it passes.
     testOptions.unitTests {
         includeAndroidResources = true
     }
 
+    //TODO check whether I need all 3 "useLibrary" below
     // Gradle automatically adds 'android.test.runner' as a dependency.
     useLibrary 'android.test.runner'
-
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
 }
@@ -93,8 +97,16 @@ dependencies {
     //don't upgrade mockito version!
     testImplementation 'org.mockito:mockito-core:2.19.0'
 
-    // AndroidX Test - Instrumented testing
-//    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-////    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation 'androidx.test.ext:truth:1.2.0'
 
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    androidTestImplementation 'androidx.test:core:1.2.0'
+    androidTestImplementation 'androidx.test:core-ktx:1.2.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.ext:junit-ktx:1.1.1'
+    androidTestImplementation 'androidx.test:runner:1.2.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    androidTestImplementation 'org.mockito:mockito-android:2.19.0'
 }

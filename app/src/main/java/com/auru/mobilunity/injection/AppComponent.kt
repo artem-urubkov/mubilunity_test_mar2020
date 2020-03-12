@@ -13,4 +13,5 @@ import javax.inject.Singleton
 )
 interface AppComponent {
     fun inject(mainViewModel: MainViewModel)
+    fun inject(injectedInstancesHolder: InjectedInstancesHolder)
 }
