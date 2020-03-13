@@ -42,6 +42,17 @@ android {
         includeAndroidResources = true
     }
 
+    sourceSets {
+        androidTest {
+//            java.srcDirs += "src/test/java"
+            java.srcDirs += "src/test/java/com/auru/mobilunity/sharedData"
+        }
+        test {
+//            java.srcDirs += "src/test/java"
+            java.srcDirs += "src/test/java/com/auru/mobilunity/sharedData"
+        }
+    }
+
     //TODO check whether I need all 3 "useLibrary" below
     // Gradle automatically adds 'android.test.runner' as a dependency.
     useLibrary 'android.test.runner'

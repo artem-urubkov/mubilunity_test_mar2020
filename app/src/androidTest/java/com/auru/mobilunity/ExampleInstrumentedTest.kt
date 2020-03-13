@@ -9,9 +9,11 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.injection.DaggerAppComponent
-import com.auru.mobilunity.injection.DataModuleInstrumentedTest
 import com.auru.mobilunity.injection.InjectedInstancesHolder
 import com.auru.mobilunity.network.RetrofitRestService
+import com.auru.mobilunity.sharedData.DataModuleTest
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
 import com.auru.mobilunity.ui.main.MainActivity
 import io.reactivex.Single
 import org.junit.After
@@ -38,13 +40,11 @@ class ExampleInstrumentedTest {
     private lateinit var context: Context
 
 
-    //TODO get rid of code duplication at /test and /androidTest folders!!!
-
     @Before
     fun initTest() {
         val testApplication = ApplicationProvider.getApplicationContext() as AndroidApp
         testApplication.component = DaggerAppComponent.builder()
-            .dataModule(DataModuleInstrumentedTest(baseUrl))
+            .dataModule(DataModuleTest(baseUrl))
             .build()
 
         val injectedInstancesHolder = InjectedInstancesHolder(testApplication)
@@ -113,19 +113,6 @@ class ExampleInstrumentedTest {
 
         onView(withId(R.id.empty_list_tv)).check(matches(isDisplayed()))
         onView(withText(context.getString(R.string.error_inet_unavailable))).check(matches(isDisplayed()))
-    }
-
-
-    //TODO find something better than copy-paste
-    companion object {
-        val expectedElement1 = RepoElement(
-            "yajl-objc",
-            "Objective-C bindings for YAJL (Yet Another JSON Library) C library"
-        )
-        val expectedElement2 = RepoElement(
-            "simplerrd",
-            "SimpleRRD provides a simple Ruby interface for creating graphs with RRD"
-        )
     }
 
 }

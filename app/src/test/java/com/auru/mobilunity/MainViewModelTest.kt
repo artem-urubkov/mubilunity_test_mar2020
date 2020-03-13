@@ -21,8 +21,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.auru.mobilunity.injection.DaggerAppComponent
-import com.auru.mobilunity.injection.DataModuleTest
+import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.network.RetrofitRestService
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
 import com.auru.mobilunity.ui.main.MainViewModel
 import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
@@ -70,8 +72,8 @@ class MainViewModelTest {
             Mockito.`when`(mockApi.getRepoElements()).thenReturn(
                 Single.just(
                     arrayOf(
-                        RepoElementsParsingUnitTest.expectedElement1,
-                        RepoElementsParsingUnitTest.expectedElement2
+                        expectedElement1,
+                        expectedElement2
                     )
                 )
             )
@@ -82,8 +84,8 @@ class MainViewModelTest {
             // Then the new task event is triggered
             val value = mainViewModel.getRepoElementsLD().getOrAwaitValue()
 
-            assertEquals(value[0], RepoElementsParsingUnitTest.expectedElement1)
-            assertEquals(value[1], RepoElementsParsingUnitTest.expectedElement2)
+            assertEquals(value[0], expectedElement1)
+            assertEquals(value[1], expectedElement2)
         }
     }
 

@@ -1,6 +1,6 @@
-package com.auru.mobilunity.injection
+package com.auru.mobilunity.sharedData
 
-import com.auru.mobilunity.InstrTestCoroutineContextProvider
+import com.auru.mobilunity.injection.DataModule
 import com.auru.mobilunity.network.RetrofitRestService
 import com.auru.mobilunity.utils.CoroutineContextProvider
 import dagger.Module
@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import javax.inject.Singleton
 
 @Module
-class DataModuleInstrumentedTest(
+class DataModuleTest(
     private val baseUrl: String
 ): DataModule(baseUrl = baseUrl) {
 
@@ -22,6 +22,6 @@ class DataModuleInstrumentedTest(
     @Provides
     @Singleton
     override fun provideCoroutineContextProvider(): CoroutineContextProvider =
-        InstrTestCoroutineContextProvider()
+        TestCoroutineContextProvider()
 
 }
