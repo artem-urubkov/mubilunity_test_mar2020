@@ -45,7 +45,7 @@ class RecyclerAdapter(private var repoItems: List<RepoElement>) :
     override fun getItemCount(): Int = repoItems.size
 
     fun setItems(newRepoItems: List<RepoElement>) {
-        //TODO merge lists in more elegant way
+        //user is ready for list-update UI change - this is how UX implemented here -> therefore, simple notifyDataSetChanged() perfectly matches here
         repoItems = newRepoItems
         notifyDataSetChanged()
     }
