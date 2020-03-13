@@ -12,7 +12,8 @@ class NetworkDataConverter {
         fun convertRestErrorToMessageId(e: Exception): Int =
             when (e) {
                 is HttpException -> R.string.error_something_went_wrong
-                is SocketTimeoutException, is IOException -> R.string.error_inet_unavailable //todo add check about inet availability
+                //todo add check about inet availability -> don't want to do that in scope of interview POC app
+                is SocketTimeoutException, is IOException -> R.string.error_inet_unavailable
                 else -> R.string.error_something_went_wrong
             }
     }

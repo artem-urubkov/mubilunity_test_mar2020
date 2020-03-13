@@ -21,7 +21,8 @@ open class DataModule(
 ) {
 
     @Provides
-    @Singleton //TODO consider isn't it better to get rid of singleton
+    @Singleton
+    //TODO Gson is thread safe -> so, if have >1 threads for serialize/deserialize stuff, investigate it's instantiation optimization
     fun provideGson(): Gson {
         val gson = GsonBuilder()
             .serializeNulls()
