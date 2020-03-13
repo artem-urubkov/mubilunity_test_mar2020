@@ -1,15 +1,14 @@
 package com.auru.mobilunity.ui.main
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.auru.mobilunity.AndroidApp
 import com.auru.mobilunity.BaseViewModel
 import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.network.NetworkDataConverter
 import com.auru.mobilunity.network.RetrofitRestService
-import com.auru.mobilunity.utils.CoroutineContextProvider
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -22,8 +21,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     @Inject
     lateinit var restApi: RetrofitRestService
-    @Inject
-    lateinit var coroutinePool: CoroutineContextProvider
 
     init {
         getApplication<AndroidApp>().component.inject(this)
@@ -40,14 +37,6 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
 
     /* ******************************** LiveData block end ******************************** */
 
-
-    override fun getFreshScope(): CoroutineScope {
-        coroutineScope.coroutineContext.cancelChildren()
-        coroutineScope = CoroutineScope(coroutinePool.Main + job)
-        return coroutineScope
-    }
-
-
     fun refreshRepoData() {
         getFreshScope().launch {
             try {
@@ -56,12 +45,15 @@ class MainViewModel(application: Application) : BaseViewModel(application) {
                     val resultList = restApi.getRepoElements().blockingGet()
                     reposList.addAll(resultList)
                 }
-//            println("$LOG_TAG, reposList.size=${reposList.size}; setting to repoElementsLD")
+                Log.d(LOG_TAG, "reposList.size=${reposList.size}; setting to repoElementsLD")
                 repoElementsLD.postValue(reposList)
             } catch (e: Exception) {
-                val errorMsgId = NetworkDataConverter.convertRestErrorToMessageId(e)
-                val message = getApplication<Application>().getString(errorMsgId)
-                errorLD.postValue(message)
+                if (isActive) { //otherwise in case of JobCancellationException we post+show error on UI
+                    Log.d(LOG_TAG, "caught $e")
+                    val errorMsgId = NetworkDataConverter.convertRestErrorToMessageId(e)
+                    val message = getApplication<Application>().getString(errorMsgId)
+                    errorLD.postValue(message)
+                }
             }
         }
     }
