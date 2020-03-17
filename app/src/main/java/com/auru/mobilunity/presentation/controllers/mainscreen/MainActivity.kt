@@ -1,4 +1,4 @@
-package com.auru.mobilunity.ui.main
+package com.auru.mobilunity.presentation.controllers.mainscreen
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,7 +11,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.main_activity)
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.container, MainFragment.newInstance())
+                    .replace(R.id.container,
+                        MainFragment.newInstance()
+                    )
                     .commitNow()
         }
     }

@@ -1,4 +1,4 @@
-package com.auru.mobilunity.ui.main
+package com.auru.mobilunity.presentation.controllers.mainscreen
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.auru.mobilunity.R
 import com.auru.mobilunity.dto.RepoElement
-import com.auru.mobilunity.widget.RecyclerViewEnum
+import com.auru.mobilunity.presentation.widgets.RecyclerAdapter
+import com.auru.mobilunity.presentation.widgets.RecyclerViewEnum
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 
@@ -26,7 +27,8 @@ class MainFragment : Fragment() {
     private var userDisabledSnackbar: Snackbar? = null
 
     companion object {
-        fun newInstance() = MainFragment()
+        fun newInstance() =
+            MainFragment()
     }
 
 
@@ -41,8 +43,7 @@ class MainFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         viewModel.getRepoElementsLD()
             .observe(viewLifecycleOwner, Observer<List<RepoElement>> { elements ->
-                val list = elements
-                recAdapter.setItems(list ?: emptyList())
+                recAdapter.setItems(elements ?: emptyList())
             })
 
         viewModel.getErrorLD().observe(viewLifecycleOwner, Observer<String> { errorMessage ->
@@ -51,7 +52,8 @@ class MainFragment : Fragment() {
         })
 
         linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recAdapter = RecyclerAdapter(emptyList<RepoElement>())
+        recAdapter =
+            RecyclerAdapter(emptyList())
 
         recyclerView?.apply {
             layoutManager = linearLayoutManager

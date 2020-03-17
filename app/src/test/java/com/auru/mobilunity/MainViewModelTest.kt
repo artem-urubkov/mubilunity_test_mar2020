@@ -23,10 +23,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.auru.mobilunity.injection.DaggerAppComponent
 import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.network.RetrofitRestService
+import com.auru.mobilunity.network.baseUrl
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
-import com.auru.mobilunity.ui.main.MainViewModel
-import io.reactivex.Single
+import com.auru.mobilunity.presentation.controllers.mainscreen.MainViewModel
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -59,7 +59,10 @@ class MainViewModelTest {
         testApplication.component = DaggerAppComponent.builder()
             .dataModule(DataModuleTest(baseUrl))
             .build()
-        mainViewModel = MainViewModel(testApplication)
+        mainViewModel =
+            MainViewModel(
+                testApplication
+            )
 
         mockApi = mainViewModel.restApi
     }
@@ -70,11 +73,9 @@ class MainViewModelTest {
         runBlocking {
 
             Mockito.`when`(mockApi.getRepoElements()).thenReturn(
-                Single.just(
-                    arrayOf(
-                        expectedElement1,
-                        expectedElement2
-                    )
+                arrayOf(
+                    expectedElement1,
+                    expectedElement2
                 )
             )
 

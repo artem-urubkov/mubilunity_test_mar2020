@@ -11,10 +11,11 @@ import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.injection.DaggerAppComponent
 import com.auru.mobilunity.injection.InjectedInstancesHolder
 import com.auru.mobilunity.network.RetrofitRestService
+import com.auru.mobilunity.network.baseUrl
 import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
-import com.auru.mobilunity.ui.main.MainActivity
+import com.auru.mobilunity.presentation.controllers.mainscreen.MainActivity
 import io.reactivex.Single
 import org.junit.After
 import org.junit.Before

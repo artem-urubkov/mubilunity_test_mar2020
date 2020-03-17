@@ -7,8 +7,6 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.ResponseBody
-import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -23,12 +21,10 @@ open class DataModule(
     @Provides
     @Singleton
     //TODO Gson is thread safe -> so, if have >1 threads for serialize/deserialize stuff, investigate it's instantiation optimization
-    fun provideGson(): Gson {
-        val gson = GsonBuilder()
+    fun provideGson(): Gson =
+        GsonBuilder()
             .serializeNulls()
             .create()
-        return gson
-    }
 
     @Provides
     @Singleton

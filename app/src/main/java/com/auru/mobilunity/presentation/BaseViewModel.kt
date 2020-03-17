@@ -1,4 +1,4 @@
-package com.auru.mobilunity
+package com.auru.mobilunity.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

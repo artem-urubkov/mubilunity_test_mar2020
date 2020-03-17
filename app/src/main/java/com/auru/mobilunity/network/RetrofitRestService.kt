@@ -1,13 +1,11 @@
 package com.auru.mobilunity.network
 
-import com.auru.mobilunity.reposUrl
 import com.auru.mobilunity.dto.RepoElement
-import io.reactivex.Single
-import retrofit2.http.*
+import retrofit2.http.GET
 
 interface RetrofitRestService {
 
     @GET(reposUrl)
-    fun getRepoElements(): Single<Array<RepoElement>>
+    suspend fun getRepoElements(): Array<RepoElement>
 
 }

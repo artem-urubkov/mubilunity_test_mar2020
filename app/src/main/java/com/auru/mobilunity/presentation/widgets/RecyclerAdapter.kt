@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.auru.mobilunity.ui.main
+package com.auru.mobilunity.presentation.widgets
 
 import android.view.LayoutInflater
 import android.view.View
@@ -37,9 +37,11 @@ class RecyclerAdapter(private var repoItems: List<RepoElement>) :
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): RecyclerAdapter.RepoItemsHolder {
+    ): RepoItemsHolder {
         val inflatedView = parent.inflate(R.layout.list_row, false)
-        return RepoItemsHolder(inflatedView)
+        return RepoItemsHolder(
+            inflatedView
+        )
     }
 
     override fun getItemCount(): Int = repoItems.size
@@ -50,7 +52,7 @@ class RecyclerAdapter(private var repoItems: List<RepoElement>) :
         notifyDataSetChanged()
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.RepoItemsHolder, position: Int) {
+    override fun onBindViewHolder(holder: RepoItemsHolder, position: Int) {
         val repoItem = repoItems[position]
         holder.bindElement(repoItem)
     }
@@ -72,13 +74,10 @@ class RecyclerAdapter(private var repoItems: List<RepoElement>) :
         override fun onClick(v: View) {
         }
 
-        companion object {
-            private val REPO_ITEM_KEY = "REPO_ITEM"
-        }
     }
 
 
-    fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
+    private fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
         return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
     }
 

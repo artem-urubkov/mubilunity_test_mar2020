@@ -1,4 +1,4 @@
-package com.auru.mobilunity.widget
+package com.auru.mobilunity.presentation.widgets
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,7 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerViewEmptyLoadingSupport : RecyclerView {
 
-    var stateView: RecyclerViewEnum? = RecyclerViewEnum.LOADING
+    var stateView: RecyclerViewEnum? =
+        RecyclerViewEnum.LOADING
         set(value) {
             field = value
             setState()
@@ -81,9 +82,4 @@ class RecyclerViewEmptyLoadingSupport : RecyclerView {
         }
     }
 
-//    enum class RecyclerViewEnum {
-//        LOADING,
-//        NORMAL,
-//        EMPTY_STATE
-//    }
 }

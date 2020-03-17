@@ -14,9 +14,9 @@
             android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".ui.main.MainFragment">
+            tools:context=".presentation.controllers.mainscreen.MainFragment">
 
-            <com.auru.mobilunity.widget.RecyclerViewEmptyLoadingSupport
+            <com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

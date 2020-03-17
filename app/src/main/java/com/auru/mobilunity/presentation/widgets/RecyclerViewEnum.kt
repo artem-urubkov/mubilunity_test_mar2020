@@ -1,4 +1,4 @@
-package com.auru.mobilunity.widget
+package com.auru.mobilunity.presentation.widgets
 
 enum class RecyclerViewEnum {
     LOADING,
