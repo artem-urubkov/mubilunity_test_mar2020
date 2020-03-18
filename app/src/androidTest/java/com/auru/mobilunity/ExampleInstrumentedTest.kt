@@ -17,6 +17,7 @@ import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedEle
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
 import com.auru.mobilunity.presentation.controllers.mainscreen.MainActivity
 import io.reactivex.Single
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -62,58 +63,51 @@ class ExampleInstrumentedTest {
 
     @Test
     fun test_positiveFlow_withEmptyResult() {
-        Mockito.`when`(mockApi.getRepoElements()).thenReturn(
-            Single.just(
-                emptyArray<RepoElement>()
+        runBlocking {
+            Mockito.`when`(mockApi.getRepoElements()).thenReturn(
+                emptyArray()
             )
-        )
 
-        scenario = ActivityScenario.launch(MainActivity::class.java)
+            scenario = ActivityScenario.launch(MainActivity::class.java)
 
-        //TODO why the test doesn't need to wait here???
-//        runBlocking {
-//            delay(1000)
-//        }
-
-        onView(withId(R.id.empty_list_tv)).check(matches(isDisplayed()))
+            onView(withId(R.id.empty_list_tv)).check(matches(isDisplayed()))
+        }
     }
 
     @Test
     fun test_positiveFlow_withGoodResult() {
-        Mockito.`when`(mockApi.getRepoElements()).thenReturn(
-            Single.just(
+        runBlocking {
+            Mockito.`when`(mockApi.getRepoElements()).thenReturn(
                 arrayOf(
                     expectedElement1,
                     expectedElement2
                 )
             )
-        )
 
-        scenario = ActivityScenario.launch(MainActivity::class.java)
+            scenario = ActivityScenario.launch(MainActivity::class.java)
 
-//        runBlocking {
-//            delay(1000)
-//        }
-
-        onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
-        onView(withText(expectedElement2.name)).check(matches(isDisplayed()))
+            onView(withId(R.id.recyclerView)).check(matches(isDisplayed()))
+            onView(withText(expectedElement2.name)).check(matches(isDisplayed()))
+        }
     }
 
 
     @Test
     fun test_negativeFlow() {
-        BDDMockito.given(mockApi.getRepoElements()).willAnswer {
-            throw IOException("Ooops")
+        runBlocking {
+            BDDMockito.given(mockApi.getRepoElements()).willAnswer {
+                throw IOException("Ooops")
+            }
+
+            scenario = ActivityScenario.launch(MainActivity::class.java)
+
+            onView(withId(R.id.empty_list_tv)).check(matches(isDisplayed()))
+            onView(withText(context.getString(R.string.error_inet_unavailable))).check(
+                matches(
+                    isDisplayed()
+                )
+            )
         }
-
-        scenario = ActivityScenario.launch(MainActivity::class.java)
-
-//        runBlocking {
-//            delay(1000)
-//        }
-
-        onView(withId(R.id.empty_list_tv)).check(matches(isDisplayed()))
-        onView(withText(context.getString(R.string.error_inet_unavailable))).check(matches(isDisplayed()))
     }
 
 }

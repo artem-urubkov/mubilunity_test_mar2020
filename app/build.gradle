@@ -51,8 +51,7 @@ android {
         }
     }
 
-    //TODO check whether I need all 3 "useLibrary" below
-    // Gradle automatically adds 'android.test.runner' as a dependency.
+    // If your app builds tests that rely on JUnit-based classes - use 3 dependencies below
     useLibrary 'android.test.runner'
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
@@ -77,12 +76,7 @@ dependencies {
     implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.okhttp3:logging-interceptor:4.2.0"
-    implementation "com.google.code.gson:gson:2.8.5"
-
-    //rx
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.12'
-    implementation 'io.reactivex.rxjava2:rxkotlin:2.4.0'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.1.1'
+    implementation "com.google.code.gson:gson:2.8.6"
 
     // Dagger 2 (Dependency Injection)
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
@@ -102,13 +96,11 @@ dependencies {
     // AndroidJUnitRunner and JUnit Rules
     testImplementation 'androidx.test:runner:1.2.0'
     testImplementation 'androidx.test:rules:1.2.0'
-
-    //don't upgrade mockito version!
-    testImplementation 'org.mockito:mockito-core:2.19.0'
-
     testImplementation 'androidx.test.ext:truth:1.2.0'
 
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    //don't upgrade mockito version!
+    testImplementation 'org.mockito:mockito-core:2.28.2'
+
 
     androidTestImplementation 'androidx.test:core:1.2.0'
     androidTestImplementation 'androidx.test:core-ktx:1.2.0'
@@ -117,5 +109,5 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    androidTestImplementation 'org.mockito:mockito-android:2.19.0'
+    androidTestImplementation 'org.mockito:mockito-android:2.28.2'
 }
