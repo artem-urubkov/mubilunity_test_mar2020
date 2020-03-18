@@ -4,13 +4,13 @@
     <font
         app:fontStyle="normal"
         app:fontWeight="400"
-        app:font="@font/DroidSerif" />
+        app:font="@font/droid_serif_normal" />
     <font
         app:fontStyle="italic"
         app:fontWeight="400"
-        app:font="@font/DroidSerifItalic" />
+        app:font="@font/droid_serif_italic" />
     <font
         app:fontStyle="normal"
         app:fontWeight="700"
-        app:font="@font/DroidSerifBold" />
+        app:font="@font/droid_serif_bold" />
 </font-family>
