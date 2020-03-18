@@ -5,81 +5,52 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerViewEmptyLoadingSupport : RecyclerView {
+class RecyclerViewEmptyLoadingSupport(context: Context, attrs: AttributeSet) :
+    RecyclerView(context, attrs) {
 
     var stateView: RecyclerViewEnum? =
         RecyclerViewEnum.LOADING
         set(value) {
             field = value
-            setState()
+            setViewsVisibilities()
         }
     var emptyStateView: View? = null
     var loadingStateView: View? = null
 
 
-    constructor(context: Context) : super(context) {}
-
-    constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {}
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int) : super(context, attrs, defStyle) {}
-
-
     private val dataObserver = object : AdapterDataObserver() {
         override fun onChanged() {
-            onChangeState()
+            onItemsChanged()
         }
 
         override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
             super.onItemRangeRemoved(positionStart, itemCount)
-            onChangeState()
+            onItemsChanged()
         }
 
         override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
             super.onItemRangeInserted(positionStart, itemCount)
-            onChangeState()
+            onItemsChanged()
         }
     }
 
 
-    override fun setAdapter(adapter: RecyclerView.Adapter<*>?) {
+    override fun setAdapter(adapter: Adapter<*>?) {
         super.setAdapter(adapter)
         adapter?.registerAdapterDataObserver(dataObserver)
         dataObserver.onChanged()
     }
 
 
-    fun onChangeState() {
-        if (adapter?.itemCount == 0) {
-            emptyStateView?.visibility = View.VISIBLE
-            loadingStateView?.visibility = View.GONE
-            this@RecyclerViewEmptyLoadingSupport.visibility = View.GONE
-        } else {
-            emptyStateView?.visibility = View.GONE
-            loadingStateView?.visibility = View.GONE
-            this@RecyclerViewEmptyLoadingSupport.visibility = View.VISIBLE
-        }
+    fun onItemsChanged() {
+        stateView = if (adapter?.itemCount == 0) RecyclerViewEnum.EMPTY_STATE else RecyclerViewEnum.NORMAL
     }
 
-    private fun setState() {
 
-        when (this.stateView) {
-            RecyclerViewEnum.LOADING -> {
-                loadingStateView?.visibility = View.VISIBLE
-                this@RecyclerViewEmptyLoadingSupport.visibility = View.GONE
-                emptyStateView?.visibility = View.GONE
-            }
-
-            RecyclerViewEnum.NORMAL -> {
-                loadingStateView?.visibility = View.GONE
-                this@RecyclerViewEmptyLoadingSupport.visibility = View.VISIBLE
-                emptyStateView?.visibility = View.GONE
-            }
-            RecyclerViewEnum.EMPTY_STATE -> {
-                loadingStateView?.visibility = View.GONE
-                this@RecyclerViewEmptyLoadingSupport.visibility = View.GONE
-                emptyStateView?.visibility = View.VISIBLE
-            }
-        }
+    private fun setViewsVisibilities() {
+        this@RecyclerViewEmptyLoadingSupport.visibility = if(stateView == RecyclerViewEnum.NORMAL) View.VISIBLE else View.GONE
+        emptyStateView?.visibility = if(stateView == RecyclerViewEnum.EMPTY_STATE) View.VISIBLE else View.GONE
+        loadingStateView?.visibility = if(stateView == RecyclerViewEnum.LOADING) View.VISIBLE else View.GONE
     }
 
 }
