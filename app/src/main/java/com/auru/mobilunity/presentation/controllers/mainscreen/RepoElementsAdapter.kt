@@ -22,13 +22,12 @@
 
 package com.auru.mobilunity.presentation.controllers.mainscreen
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
 import com.auru.mobilunity.R
 import com.auru.mobilunity.dto.RepoElement
+import com.auru.mobilunity.presentation.viewutils.inflate
 import kotlinx.android.synthetic.main.list_row.view.*
 
 class RepoElementsAdapter(private var repoItems: List<RepoElement>) :
@@ -74,11 +73,6 @@ class RepoElementsAdapter(private var repoItems: List<RepoElement>) :
         override fun onClick(v: View) {
         }
 
-    }
-
-
-    private fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View {
-        return LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
     }
 
 }
