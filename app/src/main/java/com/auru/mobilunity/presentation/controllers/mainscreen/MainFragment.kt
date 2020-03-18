@@ -14,6 +14,7 @@ import com.auru.mobilunity.R
 import com.auru.mobilunity.presentation.widgets.RecyclerViewEnum
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
+import kotlinx.android.synthetic.main.recycler_plus_empty_loading.*
 
 class MainFragment : Fragment() {
 
