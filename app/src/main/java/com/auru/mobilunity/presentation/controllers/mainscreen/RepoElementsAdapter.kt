@@ -20,7 +20,7 @@
  * THE SOFTWARE.
  */
 
-package com.auru.mobilunity.presentation.widgets
+package com.auru.mobilunity.presentation.controllers.mainscreen
 
 import android.view.LayoutInflater
 import android.view.View
@@ -31,8 +31,8 @@ import com.auru.mobilunity.R
 import com.auru.mobilunity.dto.RepoElement
 import kotlinx.android.synthetic.main.list_row.view.*
 
-class RecyclerAdapter(private var repoItems: List<RepoElement>) :
-    RecyclerView.Adapter<RecyclerAdapter.RepoItemsHolder>() {
+class RepoElementsAdapter(private var repoItems: List<RepoElement>) :
+    RecyclerView.Adapter<RepoElementsAdapter.RepoItemsHolder>() {
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
