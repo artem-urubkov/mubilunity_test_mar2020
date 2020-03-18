@@ -11,7 +11,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.auru.mobilunity.R
-import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.presentation.widgets.RecyclerAdapter
 import com.auru.mobilunity.presentation.widgets.RecyclerViewEnum
 import com.google.android.material.snackbar.Snackbar
@@ -42,11 +41,11 @@ class MainFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.getRepoElementsLD()
-            .observe(viewLifecycleOwner, Observer<List<RepoElement>> { elements ->
+            .observe(viewLifecycleOwner, Observer { elements ->
                 recAdapter.setItems(elements ?: emptyList())
             })
 
-        viewModel.getErrorLD().observe(viewLifecycleOwner, Observer<String> { errorMessage ->
+        viewModel.getErrorLD().observe(viewLifecycleOwner, Observer { errorMessage ->
             recyclerView.stateView = RecyclerViewEnum.EMPTY_STATE
             showErrorSnackBar(errorMessage)
         })
