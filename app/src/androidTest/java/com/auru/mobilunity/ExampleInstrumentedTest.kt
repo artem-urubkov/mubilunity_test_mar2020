@@ -7,16 +7,14 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.*
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.injection.DaggerAppComponent
 import com.auru.mobilunity.injection.InjectedInstancesHolder
 import com.auru.mobilunity.network.RetrofitRestService
 import com.auru.mobilunity.network.baseUrl
+import com.auru.mobilunity.presentation.controllers.mainscreen.MainActivity
 import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
-import com.auru.mobilunity.presentation.controllers.mainscreen.MainActivity
-import io.reactivex.Single
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before

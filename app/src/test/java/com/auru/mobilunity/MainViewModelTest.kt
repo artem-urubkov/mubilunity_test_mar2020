@@ -22,15 +22,17 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.injection.DaggerAppComponent
-import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.network.RetrofitRestService
 import com.auru.mobilunity.network.baseUrl
-import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
-import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
 import com.auru.mobilunity.presentation.controllers.mainscreen.MainViewModel
 import com.auru.mobilunity.presentation.viewutils.LCEResult
-import kotlinx.coroutines.runBlocking
-import org.junit.Assert.*
+import com.auru.mobilunity.sharedData.DataModuleTest
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
+import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
+import com.auru.mobilunity.utils.MainCoroutineScopeRule
+import kotlinx.coroutines.test.runBlockingTest
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNotNull
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -53,6 +55,8 @@ class MainViewModelTest {
     // Executes each task synchronously using Architecture Components.
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
+    @get:Rule
+    val coroutineScope = MainCoroutineScopeRule()
 
 
     @Before
@@ -72,7 +76,7 @@ class MainViewModelTest {
 
     @Test
     fun refreshRepoData_positive_test() {
-        runBlocking {
+        coroutineScope.runBlockingTest {
 
             Mockito.`when`(mockApi.getRepoElements()).thenReturn(
                 arrayOf(
@@ -96,7 +100,7 @@ class MainViewModelTest {
 
     @Test
     fun refreshRepoData_negative_test() {
-        runBlocking {
+        coroutineScope.runBlockingTest {
             given(mockApi.getRepoElements()).willAnswer {
                 throw IOException("Ooops")
             }
