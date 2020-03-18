@@ -53,4 +53,10 @@ class RecyclerViewEmptyLoadingSupport(context: Context, attrs: AttributeSet) :
         loadingStateView?.visibility = if(stateView == RecyclerViewEnum.LOADING) View.VISIBLE else View.GONE
     }
 
+    enum class RecyclerViewEnum {
+        LOADING,
+        NORMAL,
+        EMPTY_STATE
+    }
+
 }

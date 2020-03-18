@@ -11,7 +11,9 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.auru.mobilunity.R
-import com.auru.mobilunity.presentation.widgets.RecyclerViewEnum
+import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport
+import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport.RecyclerViewEnum.EMPTY_STATE
+import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport.RecyclerViewEnum.LOADING
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.android.synthetic.main.recycler_plus_empty_loading.*
@@ -46,7 +48,7 @@ class MainFragment : Fragment() {
             })
 
         viewModel.getErrorLD().observe(viewLifecycleOwner, Observer { errorMessage ->
-            recyclerView.stateView = RecyclerViewEnum.EMPTY_STATE
+            recyclerView.stateView = EMPTY_STATE
             showErrorSnackBar(errorMessage)
         })
 
@@ -63,7 +65,7 @@ class MainFragment : Fragment() {
             adapter = recAdapter
         }
 
-        recyclerView.stateView = RecyclerViewEnum.LOADING
+        recyclerView.stateView = LOADING
         viewModel.refreshRepoData()
 
         swipe_refresh.setOnRefreshListener(OnRefreshListener {
