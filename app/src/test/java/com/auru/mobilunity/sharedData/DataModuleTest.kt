@@ -11,7 +11,7 @@ import javax.inject.Singleton
 
 @Module
 class DataModuleTest(
-    private val baseUrl: String
+    baseUrl: String
 ): DataModule(baseUrl = baseUrl) {
 
     @Provides

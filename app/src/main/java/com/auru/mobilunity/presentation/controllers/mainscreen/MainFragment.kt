@@ -11,7 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener
 import com.auru.mobilunity.R
-import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport
+import com.auru.mobilunity.dto.RepoElement
+import com.auru.mobilunity.presentation.viewutils.LCEResult
 import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport.RecyclerViewEnum.EMPTY_STATE
 import com.auru.mobilunity.presentation.widgets.RecyclerViewEmptyLoadingSupport.RecyclerViewEnum.LOADING
 import com.google.android.material.snackbar.Snackbar
@@ -42,15 +43,22 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.getRepoElementsLD()
-            .observe(viewLifecycleOwner, Observer { elements ->
-                recAdapter.setItems(elements ?: emptyList())
-            })
+        viewModel.getRepoElementsResultLD()
+            .observe(viewLifecycleOwner, Observer { result ->
+                when (result) {
+                    is LCEResult.Success -> {
+                        recAdapter.setItems(result.data as List<RepoElement>)
+                    }
+                    is LCEResult.Failure -> {
+                        recyclerView.stateView = EMPTY_STATE
+                        showErrorSnackBar(result.errorMessage)
+                    }
+                    is LCEResult.Loading -> {
+                        //no reaction needed - initial state of RecyclerView + SwipeRefresh are sufficient
+                    }
+                }
 
-        viewModel.getErrorLD().observe(viewLifecycleOwner, Observer { errorMessage ->
-            recyclerView.stateView = EMPTY_STATE
-            showErrorSnackBar(errorMessage)
-        })
+            })
 
         linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         recAdapter =

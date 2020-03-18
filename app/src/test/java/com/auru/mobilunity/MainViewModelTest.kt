@@ -20,6 +20,7 @@ import android.os.Build
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.auru.mobilunity.dto.RepoElement
 import com.auru.mobilunity.injection.DaggerAppComponent
 import com.auru.mobilunity.sharedData.DataModuleTest
 import com.auru.mobilunity.network.RetrofitRestService
@@ -27,6 +28,7 @@ import com.auru.mobilunity.network.baseUrl
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement1
 import com.auru.mobilunity.sharedData.RepoElementsTestData.Companion.expectedElement2
 import com.auru.mobilunity.presentation.controllers.mainscreen.MainViewModel
+import com.auru.mobilunity.presentation.viewutils.LCEResult
 import kotlinx.coroutines.runBlocking
 import org.junit.Assert.*
 import org.junit.Before
@@ -83,10 +85,11 @@ class MainViewModelTest {
             mainViewModel.refreshRepoData()
 
             // Then the new task event is triggered
-            val value = mainViewModel.getRepoElementsLD().getOrAwaitValue()
+            val value = mainViewModel.getRepoElementsResultLD().getOrAwaitValue()
 
-            assertEquals(value[0], expectedElement1)
-            assertEquals(value[1], expectedElement2)
+            val data = ((value as LCEResult.Success).data as List<RepoElement>)
+            assertEquals(data[0], expectedElement1)
+            assertEquals(data[1], expectedElement2)
         }
     }
 
@@ -99,10 +102,9 @@ class MainViewModelTest {
             }
 
             mainViewModel.refreshRepoData()
-
-            val value = mainViewModel.getErrorLD().getOrAwaitValue()
-
-            assertNotNull(value)
+            val value = mainViewModel.getRepoElementsResultLD().getOrAwaitValue()
+            val result = (value as LCEResult.Failure).errorMessage
+            assertNotNull(result)
         }
     }
 
